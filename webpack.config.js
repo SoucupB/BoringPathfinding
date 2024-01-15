@@ -17,4 +17,10 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, ''), // Replace 'project-root' with your actual directory
+    },
+    open: true,
+  },
 };
