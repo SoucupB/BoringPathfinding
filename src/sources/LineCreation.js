@@ -43,7 +43,7 @@ class Polygon {
       return true;
     }
 
-    for(let i = 0, c = this.lines.length - 2; i < c; i++) {
+    for(let i = 0, c = this.lines.length - 1; i < c; i++) {
       if(this.areSegmentsIntersecting(this.lines[i], this.lines[i + 1], this.lines[c + 1], point)) {
         return false
       }
