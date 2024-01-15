@@ -1,7 +1,10 @@
-import createLines from './sources/LineCreation'
+import Polygon from './sources/LineCreation'
 
 const penis = () => {
   console.log("fafa")
 }
 
-createLines();
+const line = new Polygon();
+line.push(5, 4)
+
+line.display();
