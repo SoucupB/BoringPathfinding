@@ -1,6 +1,6 @@
 import tap from 'tap'
 const { test } = tap;
-import Polygon from '../sources/Polygon.js';
+import Polygon from '../sources/Geometry/Polygon.js';
 
 test('Push 2 lines', (t) => {
   const polygon = new Polygon();
