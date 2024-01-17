@@ -3,6 +3,7 @@ import Point from './Point.js'
 class Polygon {
   constructor() {
     this.lines = [];
+    this.holes = [];
   }
 
   areSegmentsIntersecting(A, B, C, D) {
