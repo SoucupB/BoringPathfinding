@@ -2,6 +2,8 @@ import Point from "../Geometry/Point.js"
 
 const canvas_DrawLine = (a, b, canvas = document.getElementById('canvas-drawer')) => {
   const context = canvas.getContext('2d');
+  const canvasRect = canvas.getBoundingClientRect();
+
   const height = canvas.height;
   const width = canvas.width;
 
