@@ -39,12 +39,12 @@ class Polygon {
     return false;
   }
 
-  _canPointBePushed(point) {
+  _canPointBePushed(point, startingPoint = 0) {
     if(this.lines.length <= 2) {
       return true;
     }
 
-    for(let i = 0, c = this.lines.length - 2; i < c; i++) {
+    for(let i = startingPoint, c = this.lines.length - 2; i < c; i++) {
       if(this.areSegmentsIntersecting(this.lines[i], this.lines[i + 1], this.lines[c + 1], point)) {
         return false
       }
@@ -58,6 +58,17 @@ class Polygon {
       return false;
     }
     this.lines.push(point)
+    return true;
+  }
+
+  pushIndex(index) {
+    if(index != 0 || this.lines.length < 2) {
+      return false;
+    }
+    const point = this.lines[0];
+    if(!this._canPointBePushed(point, 1)) {
+      return false;
+    }
     return true;
   }
 
