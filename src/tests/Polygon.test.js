@@ -21,12 +21,62 @@ test('Non crossing lines', (t) => {
   t.end();
 });
 
-test('First crossing lines', (t) => {
+test('First crossing lines v1', (t) => {
   const polygon = new Polygon();
   let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
   for(let i = 0; i < points.length; i++) {
     polygon.push(points[i][0], points[i][1])
   }
   t.equal(polygon.push(3, 6), false, `cross line`);
+  t.end();
+});
+
+test('First crossing lines v2', (t) => {
+  const polygon = new Polygon();
+  let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
+  for(let i = 0; i < points.length; i++) {
+    polygon.push(points[i][0], points[i][1])
+  }
+  t.equal(polygon.push(2, 6), false, `cross line`);
+  t.end();
+});
+
+test('First crossing lines v3', (t) => {
+  const polygon = new Polygon();
+  let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
+  for(let i = 0; i < points.length; i++) {
+    polygon.push(points[i][0], points[i][1])
+  }
+  t.equal(polygon.push(8, 6), true, `cross line`);
+  t.end();
+});
+
+test('First crossing lines v4', (t) => {
+  const polygon = new Polygon();
+  let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
+  for(let i = 0; i < points.length; i++) {
+    polygon.push(points[i][0], points[i][1])
+  }
+  t.equal(polygon.push(7, 7), false, `cross line`);
+  t.end();
+});
+
+test('First crossing lines v5', (t) => {
+  const polygon = new Polygon();
+  let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
+  for(let i = 0; i < points.length; i++) {
+    polygon.push(points[i][0], points[i][1])
+  }
+  t.equal(polygon.push(0, 0), false, `cross line`);
+  t.end();
+});
+
+test('Point line intersection', (t) => {
+  const polygon = new Polygon();
+  let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
+  for(let i = 0; i < points.length; i++) {
+    polygon.push(points[i][0], points[i][1])
+  }
+  t.equal(polygon.push(0, 4), false, `cross line`);
   t.end();
 });
