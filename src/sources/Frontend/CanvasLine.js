@@ -13,8 +13,8 @@ const canvas_DrawLine = (a, b, canvas = document.getElementById('canvas-drawer')
   const normalisedEnd = new Point(b.y / 100.0 * height, b.x / 100.0 * width);
 
   context.beginPath();
-  context.moveTo(normalisedStart.y, normalisedStart.x);
-  context.lineTo(normalisedEnd.y, normalisedEnd.x);
+  context.moveTo(normalisedStart.x, normalisedStart.y);
+  context.lineTo(normalisedEnd.x, normalisedEnd.y);
   context.stroke();
 }
 
