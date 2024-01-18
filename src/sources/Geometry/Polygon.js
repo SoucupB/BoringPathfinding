@@ -70,7 +70,7 @@ class Polygon {
   getClosestPoint(point) {
     for(let i = 0, c = this.lines.length; i < c; i++) {
       if(this.distancef(point, this.lines[i]) <= this.autocompletePointDistance) {
-        return (i, this.lines[i]);
+        return [i, this.lines[i]];
       }
     }
     return null;

@@ -1,6 +1,6 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
-import canvas_DrawLine from "./CanvasLine.js";
+import Drawer from "./CanvasLine.js";
 
 class CanvasMain {
   constructor(canvas = null) {
@@ -28,23 +28,38 @@ class CanvasMain {
 
   drawLines() {
     for(let i = 0, c = this.polygon.lines.length - 1; i < c; i++) {
-      canvas_DrawLine(this.polygon.lines[i], this.polygon.lines[i + 1]);
+      Drawer.canvas_DrawLine(this.polygon.lines[i], this.polygon.lines[i + 1]);
     }
   }
 
-  reDraw() {
-    this.clearCanvas();
-    this.drawLines();
+  drawCircle() {
+    const closestPoint = this.polygon.getClosestPoint(this.mouse);
+    if(!closestPoint) {
+      return ;
+    }
+    Drawer.canvas_DrawCircle(closestPoint[1], 9, 'red', this.canvas);
+  }
+
+  onFrame(self) {
+    self.clearCanvas();
+    self.drawLines();
+    self.drawCircle();
+
+    self.nextFrame();
+  }
+
+  nextFrame() {
+    setTimeout(() => this.onFrame(this), 64);
   }
 
   pressLine(event, self) {
     self.polygon.push(self.mouse.y, self.mouse.x);
-    self.reDraw();
   }
 
   startMouseListener() {
     document.addEventListener('mousemove', (event) => this.updateMousePosition(event, this)); 
     this.canvas.addEventListener("click", (event) => this.pressLine(event, this));
+    this.nextFrame();
   }
 }
 

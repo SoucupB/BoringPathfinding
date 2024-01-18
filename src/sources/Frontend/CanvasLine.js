@@ -1,22 +1,42 @@
 import Point from "../Geometry/Point.js"
 
-const canvas_DrawLine = (a, b, canvas = document.getElementById('canvas-drawer')) => {
-  const context = canvas.getContext('2d');
+class Drawer {
+  // This canvas_DrawLine takes points that are normalised
 
-  const height = canvas.height;
-  const width = canvas.width;
+  static canvas_GetNormalisedValue(point, canvas = document.getElementById('canvas-drawer')) {
+    const height = canvas.height;
+    const width = canvas.width;
 
-  context.strokeStyle = '#00f'; // Blue color
-  context.lineWidth = 2;
+    return new Point(point.y / 100.0 * height, point.x / 100.0 * width);
+  }
 
-  const normalisedStart = new Point(a.y / 100.0 * height, a.x / 100.0 * width);
-  const normalisedEnd = new Point(b.y / 100.0 * height, b.x / 100.0 * width);
+  static canvas_DrawLine(a, b, canvas = document.getElementById('canvas-drawer')) {
+    const context = canvas.getContext('2d');
 
-  context.beginPath();
-  context.moveTo(normalisedStart.x, normalisedStart.y);
-  context.lineTo(normalisedEnd.x, normalisedEnd.y);
-  context.stroke();
+    context.strokeStyle = '#00f'; // Blue color
+    context.lineWidth = 2;
+
+    const normalisedStart = Drawer.canvas_GetNormalisedValue(a, canvas);
+    const normalisedEnd = Drawer.canvas_GetNormalisedValue(b, canvas);
+
+    context.beginPath();
+    context.moveTo(normalisedStart.x, normalisedStart.y);
+    context.lineTo(normalisedEnd.x, normalisedEnd.y);
+    context.stroke();
+  }
+
+  static canvas_DrawCircle(point, radius, color = 'red', canvas = document.getElementById('canvas-drawer')) {
+    const context = canvas.getContext('2d');
+    const normalisedPoint = Drawer.canvas_GetNormalisedValue(point, canvas);
+
+    context.beginPath();
+    context.arc(normalisedPoint.x, normalisedPoint.y, radius, 0, 2 * Math.PI);
+    
+    context.strokeStyle = color;
+    context.lineWidth = 2;
+    context.stroke();
+    context.closePath();
+  }
+
 }
-
-// This canvas_DrawLine takes points that are normalised
-export default canvas_DrawLine;
+export default Drawer;
