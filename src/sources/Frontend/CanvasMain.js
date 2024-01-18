@@ -53,7 +53,12 @@ class CanvasMain {
   }
 
   pressLine(event, self) {
-    self.polygon.push(self.mouse.y, self.mouse.x);
+    const closestPoint = self.polygon.getClosestPoint(self.mouse);
+    if(!closestPoint) {
+      self.polygon.push(self.mouse.y, self.mouse.x);
+      return ;
+    }
+    self.polygon.pushIndex(closestPoint[0]);
   }
 
   startMouseListener() {

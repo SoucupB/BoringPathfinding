@@ -5,7 +5,8 @@ class Polygon {
   constructor() {
     this.lines = [];
     this.holes = [];
-    this.autocompletePointDistance = 1;
+    this.autocompletePointDistance = 3;
+    this.complete = false;
   }
 
   areSegmentsIntersecting(A, B, C, D) {
@@ -54,9 +55,12 @@ class Polygon {
     return true;
   }
 
-  push(y, x) {
+  push(y, x, woChecker = false) {
+    if(this.complete) {
+      return true;
+    }
     const point = new Point(y, x);
-    if(!this._canPointBePushed(point)) {
+    if(!woChecker && !this._canPointBePushed(point)) {
       return false;
     }
     this.lines.push(point)
@@ -77,13 +81,15 @@ class Polygon {
   }
 
   pushIndex(index) {
-    if(index != 0 || this.lines.length < 2) {
+    if(this.complete || index != 0 || this.lines.length < 2) {
       return false;
     }
     const point = this.lines[0];
     if(!this._canPointBePushed(point, 1)) {
       return false;
     }
+    this.push(this.lines[0].y, this.lines[0].x, true);
+    this.complete = true;
     return true;
   }
 
