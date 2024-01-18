@@ -1,4 +1,5 @@
 import Point from './Point.js'
+import Delaunator from 'delaunator';
 
 class Polygon {
   constructor() {
@@ -74,6 +75,15 @@ class Polygon {
 
   linesCount() {
     return Math.max(0, this.lines.length - 1);
+  }
+
+  triangulate() {
+    let coords = [];
+    for(let i = 0; i < this.lines.length; i++) {
+      coords.push(this.lines[i].y);
+      coords.push(this.lines[i].x);
+    }
+    return (new Delaunator(coords)).triangles;
   }
 
   display() {

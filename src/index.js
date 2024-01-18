@@ -2,10 +2,14 @@ import Polygon from './sources/Geometry/Polygon.js'
 import canvas_DrawLine from './sources/Frontend/CanvasLine.js';
 import Point from './sources/Geometry/Point.js';
 import CanvasMain from './sources/Frontend/CanvasMain.js';
-// const line = new Polygon();
-// line.push(5, 4)
+const line = new Polygon();
+line.push(0, 0)
+line.push(5, 0)
+line.push(5, 5)
+line.push(0, 5)
 
-// line.display();
+line.triangulate();
+line.display();
 
 const canvasDOM = document.getElementById('canvas-drawer');
 
