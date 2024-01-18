@@ -5,6 +5,7 @@ class Polygon {
   constructor() {
     this.lines = [];
     this.holes = [];
+    this.autocompletePointDistance = 1;
   }
 
   areSegmentsIntersecting(A, B, C, D) {
@@ -60,6 +61,19 @@ class Polygon {
     }
     this.lines.push(point)
     return true;
+  }
+
+  distancef(a, b) {
+    return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+  }
+
+  getClosestPoint(point) {
+    for(let i = 0, c = this.lines.length; i < c; i++) {
+      if(this.distancef(point, this.lines[i]) <= this.autocompletePointDistance) {
+        return (i, this.lines[i]);
+      }
+    }
+    return null;
   }
 
   pushIndex(index) {

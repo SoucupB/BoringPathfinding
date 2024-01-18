@@ -7,9 +7,13 @@ class CanvasMain {
     // normalised values between 0 and 100
     this.mouse = new Point(0, 0);
     this.canvas = canvas;
-
+    this.ctx = canvas.getContext("2d");
     this.boundingBox = canvas.getBoundingClientRect();
     this.polygon = new Polygon();
+  }
+
+  clearCanvas() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   updateMousePosition(event, self) {
@@ -22,10 +26,15 @@ class CanvasMain {
     self.mouse.x = (event.clientX - self.boundingBox.x) / (self.boundingBox.width - self.boundingBox.x) * 100.0;
   }
 
-  reDraw() {
+  drawLines() {
     for(let i = 0, c = this.polygon.lines.length - 1; i < c; i++) {
       canvas_DrawLine(this.polygon.lines[i], this.polygon.lines[i + 1]);
     }
+  }
+
+  reDraw() {
+    this.clearCanvas();
+    this.drawLines();
   }
 
   pressLine(event, self) {
