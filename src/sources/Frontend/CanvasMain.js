@@ -1,7 +1,8 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
-import Triangle from "../Geometry/Triangle.js";
+import Navmesh from "../Geometry/Navmesh.js";
+import AStar from "../Searcher/AStart.js";
 
 class CanvasMain {
   constructor(canvas = null) {
@@ -13,20 +14,42 @@ class CanvasMain {
     this.polygon = new Polygon();
     this.triangulated = false;
     this.triangles = [];
+    this.srcPoint = null;
+    this.searcher = null;
   }
 
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  updateMousePosition(event, self) {
-    if((event.clientX < self.boundingBox.x || event.clientY < self.boundingBox.y) || 
-       (event.clientX > self.boundingBox.width || event.clientY > self.boundingBox.height)) {
+  updateMousePosition(event) {
+    if((event.clientX < this.boundingBox.x || event.clientY < this.boundingBox.y) || 
+       (event.clientX > this.boundingBox.width || event.clientY > this.boundingBox.height)) {
       return ;
     }
 
-    self.mouse.y = (event.clientY - self.boundingBox.y) / (self.boundingBox.height - self.boundingBox.y) * 100.0;
-    self.mouse.x = (event.clientX - self.boundingBox.x) / (self.boundingBox.width - self.boundingBox.x) * 100.0;
+    this.mouse.y = (event.clientY - this.boundingBox.y) / (this.boundingBox.height - this.boundingBox.y) * 100.0;
+    this.mouse.x = (event.clientX - this.boundingBox.x) / (this.boundingBox.width - this.boundingBox.x) * 100.0;
+  }
+
+  processMouseMovement(event, self) {
+    self.updateMousePosition(event);
+    self.searchPath();
+  }
+
+  searchPath() {
+    if(!this.searcher || !this.srcPoint) {
+      return ;
+    }
+    const triangleSrc = this.polygon.getTriangle(this.srcPoint);
+    if(!triangleSrc) {
+      return ;
+    }
+    const triangleDst = this.polygon.getTriangle(this.mouse);
+    if(!triangleDst) {
+      return ;
+    }
+    console.log(triangleSrc.id, triangleDst.id, this.searcher.search(triangleSrc, triangleDst))
   }
 
   drawLines() {
@@ -41,7 +64,7 @@ class CanvasMain {
 
   triangulateMesh() {
     this.polygon.triangulate();
-
+    this.searcher = new AStar(this.polygon.navmesh);
     this.triangulated = true;
   }
 
@@ -94,11 +117,11 @@ class CanvasMain {
     if(!this.triangulated) {
       return ;
     }
-    const triangle = this.polygon.getTriangle(this.mouse);
-    if(!triangle) {
-      return ;
-    }
-    console.log(triangle)
+    this.srcPoint = new Point(this.mouse.y, this.mouse.x);
+  }
+
+  clearSrcPoint() {
+    this.srcPoint = null;
   }
 
   processClickRequest(_, self) {
@@ -107,7 +130,7 @@ class CanvasMain {
   }
 
   startMouseListener() {
-    document.addEventListener('mousemove', (event) => this.updateMousePosition(event, this)); 
+    document.addEventListener('mousemove', (event) => this.processMouseMovement(event, this)); 
     this.canvas.addEventListener("click", (event) => this.processClickRequest(event, this));
     this.nextFrame();
   }

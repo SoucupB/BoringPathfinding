@@ -10,3 +10,7 @@ canvas.startMouseListener();
 document.getElementById('button-triangulate').addEventListener('click', () => {
   canvas.triangulateMesh();
 })
+
+document.getElementById('clear-src-point').addEventListener('click', () => {
+  canvas.clearSrcPoint();
+})
