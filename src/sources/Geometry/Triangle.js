@@ -54,6 +54,13 @@ class Triangle {
     }
   }
 
+  midPoint() {
+    return new Point(
+      (this.a.y + this.b.y + this.c.y) / 3.0,
+      (this.a.x + this.b.x + this.c.x) / 3.0
+    );
+  }
+
   areTriangleNeighbours(triB) {
     return (
       (this.a.arePointsEqual(triB.a) ? 1 : 0) +
