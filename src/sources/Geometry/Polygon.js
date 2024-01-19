@@ -1,6 +1,4 @@
 import Point from './Point.js'
-import earcut from 'earcut';
-import Triangle from './Triangle.js';
 import Navmesh from './Navmesh.js';
 
 class Polygon {
@@ -57,6 +55,15 @@ class Polygon {
       }
     }
     return true;
+  }
+
+  doesSegmentIntersects(start, end) {
+    for(let i = 0, c = this.lines.length; i < c; i++) {
+      if(this.areSegmentsIntersecting(this.lines[i], this.lines[(i + 1) % c], start, end)) {
+        return true
+      }
+    }
+    return false;
   }
 
   push(y, x, woChecker = false) {

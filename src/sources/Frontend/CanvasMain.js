@@ -1,7 +1,6 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
-import Navmesh from "../Geometry/Navmesh.js";
 import AStar from "../Searcher/AStart.js";
 
 class CanvasMain {
@@ -50,7 +49,10 @@ class CanvasMain {
     if(!triangleDst) {
       return ;
     }
-    this.pathFound = this.searcher.search(triangleSrc, triangleDst);
+    // this.pathFound = this.searcher.search(triangleSrc, triangleDst);
+    this.pathFound = this.searcher.getPointsPath(triangleSrc, triangleDst);
+
+    // console.log(this.searcher.getPointsPath(triangleSrc, triangleDst))
   }
 
   drawMidPoints() {
@@ -59,7 +61,7 @@ class CanvasMain {
     }
     
     for(let i = 0, c = this.pathFound.length - 1; i < c; i++) {
-      Drawer.canvas_DrawLine(this.pathFound[i].midPoint(), this.pathFound[i + 1].midPoint());
+      Drawer.canvas_DrawLine(this.pathFound[i], this.pathFound[i + 1]);
     }
   }
 
@@ -75,7 +77,7 @@ class CanvasMain {
 
   triangulateMesh() {
     this.polygon.triangulate();
-    this.searcher = new AStar(this.polygon.navmesh);
+    this.searcher = new AStar(this.polygon);
     this.triangulated = true;
   }
 
