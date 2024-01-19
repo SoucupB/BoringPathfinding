@@ -10,6 +10,8 @@ class CanvasMain {
     this.ctx = canvas.getContext("2d");
     this.boundingBox = canvas.getBoundingClientRect();
     this.polygon = new Polygon();
+    this.triangulated = false;
+    this.triangles = [];
   }
 
   clearCanvas() {
@@ -27,8 +29,31 @@ class CanvasMain {
   }
 
   drawLines() {
+    if(this.triangulated) {
+      return ;
+    }
+
     for(let i = 0, c = this.polygon.lines.length - 1; i < c; i++) {
       Drawer.canvas_DrawLine(this.polygon.lines[i], this.polygon.lines[i + 1]);
+    }
+  }
+
+  triangulateMesh() {
+    this.triangulated = true;
+  }
+
+  triangulateMeshOnFrame() {
+    if(!this.triangulated) {
+      return ;
+    }
+
+    const triangleIndexes = this.polygon.triangulate();
+    const points = this.polygon.lines;
+
+    for(let i = 0, c = triangleIndexes.length; i < c; i += 3) {
+      Drawer.canvas_DrawLine(points[triangleIndexes[i]], points[triangleIndexes[i + 1]], this.canvas, 'red');
+      Drawer.canvas_DrawLine(points[triangleIndexes[i + 1]], points[triangleIndexes[i + 2]], this.canvas, 'red');
+      Drawer.canvas_DrawLine(points[triangleIndexes[i]], points[triangleIndexes[i + 2]], this.canvas, 'red');
     }
   }
 
@@ -44,6 +69,7 @@ class CanvasMain {
     self.clearCanvas();
     self.drawLines();
     self.drawCircle();
+    self.triangulateMeshOnFrame();
 
     self.nextFrame();
   }

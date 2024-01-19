@@ -99,7 +99,11 @@ class Polygon {
 
   triangulate() {
     let coords = [];
-    for(let i = 0; i < this.lines.length; i++) {
+    if(!this.complete) {
+      return coords;
+    }
+
+    for(let i = 0; i < this.lines.length - 1; i++) {
       coords.push(this.lines[i].y);
       coords.push(this.lines[i].x);
     }

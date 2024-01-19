@@ -10,11 +10,11 @@ class Drawer {
     return new Point(point.y / 100.0 * height, point.x / 100.0 * width);
   }
 
-  static canvas_DrawLine(a, b, canvas = document.getElementById('canvas-drawer')) {
+  static canvas_DrawLine(a, b, canvas = document.getElementById('canvas-drawer'), color = '#00f') {
     const context = canvas.getContext('2d');
 
-    context.strokeStyle = '#00f'; // Blue color
-    context.lineWidth = 2;
+    context.strokeStyle = color; // Blue color
+    context.lineWidth = 1;
 
     const normalisedStart = Drawer.canvas_GetNormalisedValue(a, canvas);
     const normalisedEnd = Drawer.canvas_GetNormalisedValue(b, canvas);

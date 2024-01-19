@@ -6,3 +6,7 @@ const canvasDOM = document.getElementById('canvas-drawer');
 
 const canvas = new CanvasMain(canvasDOM);
 canvas.startMouseListener();
+
+document.getElementById('button-triangulate').addEventListener('click', () => {
+  canvas.triangulateMesh();
+})
