@@ -1,5 +1,5 @@
 import Point from './Point.js'
-import Delaunator from 'delaunator';
+import earcut from 'earcut';
 
 class Polygon {
   constructor() {
@@ -107,7 +107,7 @@ class Polygon {
       coords.push(this.lines[i].y);
       coords.push(this.lines[i].x);
     }
-    return (new Delaunator(coords)).triangles;
+    return earcut(coords);
   }
 
   display() {
