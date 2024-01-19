@@ -39,6 +39,8 @@ class CanvasMain {
   }
 
   triangulateMesh() {
+    this.polygon.triangulate();
+
     this.triangulated = true;
   }
 
@@ -47,7 +49,7 @@ class CanvasMain {
       return ;
     }
 
-    const triangleIndexes = this.polygon.triangulate();
+    const triangleIndexes = this.polygon.getTriangleIndexes();
     const points = this.polygon.lines;
 
     for(let i = 0, c = triangleIndexes.length; i < c; i += 3) {
@@ -78,7 +80,7 @@ class CanvasMain {
     setTimeout(() => this.onFrame(this), 64);
   }
 
-  pressLine(event, self) {
+  pressLine(_, self) {
     const closestPoint = self.polygon.getClosestPoint(self.mouse);
     if(!closestPoint) {
       self.polygon.push(self.mouse.y, self.mouse.x);

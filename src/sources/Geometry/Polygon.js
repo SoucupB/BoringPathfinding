@@ -1,5 +1,7 @@
 import Point from './Point.js'
 import earcut from 'earcut';
+import Triangle from './Triangle.js';
+import Navmesh from './Navmesh.js';
 
 class Polygon {
   constructor() {
@@ -7,6 +9,8 @@ class Polygon {
     this.holes = [];
     this.autocompletePointDistance = 3;
     this.complete = false;
+
+    this.navmesh = null;
   }
 
   areSegmentsIntersecting(A, B, C, D) {
@@ -98,16 +102,18 @@ class Polygon {
   }
 
   triangulate() {
-    let coords = [];
     if(!this.complete) {
-      return coords;
+      return [];
     }
+    this.navmesh = new Navmesh(this.lines);
+    this.navmesh.triangulate();
+  }
 
-    for(let i = 0; i < this.lines.length - 1; i++) {
-      coords.push(this.lines[i].y);
-      coords.push(this.lines[i].x);
+  getTriangleIndexes() {
+    if(!this.navmesh) {
+      return null;
     }
-    return earcut(coords);
+    return this.navmesh.triangles;
   }
 
   display() {
