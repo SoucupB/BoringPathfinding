@@ -1,8 +1,6 @@
 import Point from "../Geometry/Point.js"
 
 class Drawer {
-  // This canvas_DrawLine takes points that are normalised
-
   static canvas_GetNormalisedValue(point, canvas = document.getElementById('canvas-drawer')) {
     const height = canvas.height;
     const width = canvas.width;
@@ -10,10 +8,11 @@ class Drawer {
     return new Point(point.y / 100.0 * height, point.x / 100.0 * width);
   }
 
+  // This canvas_DrawLine takes points that are normalised
   static canvas_DrawLine(a, b, canvas = document.getElementById('canvas-drawer'), color = '#00f') {
     const context = canvas.getContext('2d');
 
-    context.strokeStyle = color; // Blue color
+    context.strokeStyle = color;
     context.lineWidth = 1;
 
     const normalisedStart = Drawer.canvas_GetNormalisedValue(a, canvas);
