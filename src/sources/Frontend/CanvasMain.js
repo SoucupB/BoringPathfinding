@@ -1,7 +1,7 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
-import AStar from "../Searcher/AStar.js";
+import Search from "../Searcher/Search.js";
 
 class CanvasMain {
   constructor(canvas = null) {
@@ -66,7 +66,7 @@ class CanvasMain {
 
   triangulateMesh() {
     this.polygon.triangulate();
-    this.searcher = new AStar(this.polygon);
+    this.searcher = new Search(this.polygon);
     this.triangulated = true;
   }
 

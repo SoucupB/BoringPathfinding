@@ -1,4 +1,4 @@
-class AStar {
+class Search {
   constructor(polygon) {
     this.polygon = polygon;
     this.navmesh = polygon.navmesh;
@@ -77,4 +77,4 @@ class AStar {
   }
 }
 
-export default AStar;
+export default Search;
