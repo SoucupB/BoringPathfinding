@@ -41,18 +41,7 @@ class CanvasMain {
     if(!this.searcher || !this.srcPoint) {
       return ;
     }
-    const triangleSrc = this.polygon.getTriangle(this.srcPoint);
-    if(!triangleSrc) {
-      return ;
-    }
-    const triangleDst = this.polygon.getTriangle(this.mouse);
-    if(!triangleDst) {
-      return ;
-    }
-    // this.pathFound = this.searcher.search(triangleSrc, triangleDst);
-    this.pathFound = this.searcher.getPointsPath(triangleSrc, triangleDst);
-
-    // console.log(this.searcher.getPointsPath(triangleSrc, triangleDst))
+    this.pathFound = this.searcher.getPointsPath(this.srcPoint, this.mouse);
   }
 
   drawMidPoints() {

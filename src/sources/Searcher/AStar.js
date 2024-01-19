@@ -44,23 +44,36 @@ class AStar {
     return index;
   }
 
-  getPointsPath(src, dst) {
+  getPointsPathFromTriangle(src, dst, pathPoints = []) {
     let triangles = this.search(src, dst);
     if(triangles.length <= 1) {
       return [src];
     }
     let startingPoint = triangles[0].midPoint();
-    let resultingPoints = [startingPoint];
+    pathPoints.push(startingPoint)
 
     let lastIndex = 0;
     let nextIndex = this.getNextPoint(startingPoint, 0, triangles);
     while(nextIndex != lastIndex) {
       startingPoint = triangles[nextIndex].midPoint()
-      resultingPoints.push(startingPoint);
+      pathPoints.push(startingPoint);
       lastIndex = nextIndex;
       nextIndex = this.getNextPoint(startingPoint, nextIndex, triangles);
     }
-    return resultingPoints;
+    return pathPoints;
+  }
+
+  getPointsPath(src, dst) {
+    const triangleSrc = this.polygon.getTriangle(src);
+    if(!triangleSrc) {
+      return null;
+    }
+    const triangleDst = this.polygon.getTriangle(dst);
+    if(!triangleDst) {
+      return null;
+    }
+
+    return [src, ...this.getPointsPathFromTriangle(triangleSrc, triangleDst), dst]
   }
 }
 
