@@ -1,6 +1,7 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
+import Triangle from "../Geometry/Triangle.js";
 
 class CanvasMain {
   constructor(canvas = null) {
@@ -50,12 +51,12 @@ class CanvasMain {
     }
 
     const triangleIndexes = this.polygon.getTriangleIndexes();
-    const points = this.polygon.lines;
 
-    for(let i = 0, c = triangleIndexes.length; i < c; i += 3) {
-      Drawer.canvas_DrawLine(points[triangleIndexes[i]], points[triangleIndexes[i + 1]], this.canvas, 'red');
-      Drawer.canvas_DrawLine(points[triangleIndexes[i + 1]], points[triangleIndexes[i + 2]], this.canvas, 'red');
-      Drawer.canvas_DrawLine(points[triangleIndexes[i]], points[triangleIndexes[i + 2]], this.canvas, 'red');
+    for(let i = 0, c = triangleIndexes.length; i < c; i++) {
+      const triangle = triangleIndexes[i];
+      Drawer.canvas_DrawLine(triangle.a, triangle.b, this.canvas, 'red');
+      Drawer.canvas_DrawLine(triangle.b, triangle.c, this.canvas, 'red');
+      Drawer.canvas_DrawLine(triangle.a, triangle.c, this.canvas, 'red');
     }
   }
 

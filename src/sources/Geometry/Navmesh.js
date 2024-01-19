@@ -1,9 +1,17 @@
 import earcut from 'earcut';
+import Triangle from './Triangle.js';
 
 class Navmesh {
   constructor(polygon) {
     this.triangles = [];
     this.polygon = polygon;
+  }
+
+  createTriangles(triangleIndexes) {
+    const points = this.polygon;
+    for(let i = 0, c = triangleIndexes.length; i < c; i += 3) {
+      this.triangles.push(new Triangle(points[triangleIndexes[i]], points[triangleIndexes[i + 1]], points[triangleIndexes[i + 2]]));
+    }
   }
   
   triangulate() {
@@ -13,7 +21,11 @@ class Navmesh {
       coords.push(this.polygon[i].y);
       coords.push(this.polygon[i].x);
     }
-    this.triangles = earcut(coords);
+    this.createTriangles(earcut(coords));
+  }
+
+  isPointInside(point) {
+
   }
 }
 
