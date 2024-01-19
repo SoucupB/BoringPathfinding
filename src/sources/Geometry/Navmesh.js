@@ -24,8 +24,14 @@ class Navmesh {
     this.createTriangles(earcut(coords));
   }
 
-  isPointInside(point) {
-
+  getTriangle(point) {
+    const triangles = this.triangles;
+    for(let i = 0, c = triangles.length; i < c; i++) {
+      if(triangles.isPointInside(point)) {
+        return triangles;
+      }
+    }
+    return null;
   }
 }
 
