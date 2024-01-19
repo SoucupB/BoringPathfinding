@@ -10,11 +10,15 @@ class Triangle {
   }
 
   isPointInside(point) {
-    const [p, a, b, c] = [point.y, point.x, this.a.y, this.a.x, this.b.y, this.b.x, this.c.y, this.c.x];
+    const [x, y] = [point.x, point.y];
+    const [x1, y1] = [this.a.x, this.a.y];
+    const [x2, y2] = [this.b.x, this.b.y];
+    const [x3, y3] = [this.c.x, this.c.y];
 
-    const detT = (a - c) * (b - c) - (a - b) * (c - b);
-    const alpha = ((b - c) * (p[1] - c[1]) - (a - c) * (p[0] - c[0])) / detT;
-    const beta = ((a - c) * (p[1] - c[1]) - (b - c) * (p[0] - c[0])) / detT;
+    const denominator = (y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3);
+
+    const alpha = ((y2 - y3) * (x - x3) + (x3 - x2) * (y - y3)) / denominator;
+    const beta = ((y3 - y1) * (x - x3) + (x1 - x3) * (y - y3)) / denominator;
     const gamma = 1 - alpha - beta;
 
     return alpha > 0 && beta > 0 && gamma > 0;
