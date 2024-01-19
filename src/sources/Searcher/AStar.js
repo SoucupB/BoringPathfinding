@@ -44,10 +44,10 @@ class AStar {
     return index;
   }
 
-  getPointsPathFromTriangle(src, dst, pathPoints = []) {
-    let triangles = this.search(src, dst);
+  getPointsPathFromTriangle(srcTriangle, dstTriangle, pathPoints = []) {
+    let triangles = this.search(srcTriangle, dstTriangle);
     if(triangles.length <= 1) {
-      return [src];
+      return [srcTriangle];
     }
     let startingPoint = triangles[0].midPoint();
     pathPoints.push(startingPoint)
