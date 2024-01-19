@@ -27,10 +27,15 @@ class Navmesh {
     if(currentTriangle.id in triangleCheck) {
       return ;
     }
+    triangleCheck[currentTriangle.id] = 1;
     for(let i = 0, c = this.triangles.length; i < c; i++) {
-
+      if(this.triangles[i].id != currentTriangle.id && currentTriangle.areTriangleNeighbours(this.triangles[i])) {
+        currentTriangle.neighbours.push(this.triangles[i]);
+      }
     }
-
+    for(let i = 0, c = currentTriangle.neighbours.length; i < c; i++) {
+      this.createNeighbours_t(currentTriangle.neighbours[i], triangleCheck);
+    }
   }
   
   triangulate() {
@@ -41,6 +46,9 @@ class Navmesh {
       coords.push(this.polygon[i].x);
     }
     this.createTriangles(earcut(coords));
+    this.createNeighbours();
+
+    this.triangles[0].displayNeighbours(true);
   }
 
   getTriangle(point) {

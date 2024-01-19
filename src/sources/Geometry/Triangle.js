@@ -25,6 +25,35 @@ class Triangle {
     return alpha > 0 && beta > 0 && gamma > 0;
   }
 
+  _display() {
+    let stringResponse = `id: ${this.id}, neigh: `
+    let neighIDs = [];
+    for(let i = 0, c = this.neighbours.length; i < c; i++) {
+      neighIDs.push(this.neighbours[i].id);
+    }
+    console.log(stringResponse + neighIDs.join(', '));
+  }
+
+  displayNeighbours(recursive = false) {
+    if(recursive) {
+      let triangleMap = {};
+      this.displayNeighbours_t(triangleMap);
+      return ;
+    }
+    this._display();
+  }
+
+  displayNeighbours_t(trianglesChecked = {}) {
+    if(this.id in trianglesChecked) {
+      return ;
+    }
+    trianglesChecked[this.id] = 1;
+    this._display();
+    for(let i = 0, c = this.neighbours.length; i < c; i++) {
+      this.neighbours[i].displayNeighbours_t(trianglesChecked)
+    }
+  }
+
   areTriangleNeighbours(triB) {
     return (
       (this.a.arePointsEqual(triB.a) ? 1 : 0) +
