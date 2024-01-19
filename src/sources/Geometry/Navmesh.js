@@ -47,8 +47,6 @@ class Navmesh {
     }
     this.createTriangles(earcut(coords));
     this.createNeighbours();
-
-    this.triangles[0].displayNeighbours(true);
   }
 
   getTriangle(point) {

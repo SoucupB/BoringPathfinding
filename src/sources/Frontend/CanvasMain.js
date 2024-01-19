@@ -16,6 +16,7 @@ class CanvasMain {
     this.triangles = [];
     this.srcPoint = null;
     this.searcher = null;
+    this.pathFound = null;
   }
 
   clearCanvas() {
@@ -49,7 +50,17 @@ class CanvasMain {
     if(!triangleDst) {
       return ;
     }
-    console.log(triangleSrc.id, triangleDst.id, this.searcher.search(triangleSrc, triangleDst))
+    this.pathFound = this.searcher.search(triangleSrc, triangleDst);
+  }
+
+  drawMidPoints() {
+    if(!this.pathFound) {
+      return ;
+    }
+    
+    for(let i = 0, c = this.pathFound.length - 1; i < c; i++) {
+      Drawer.canvas_DrawLine(this.pathFound[i].midPoint(), this.pathFound[i + 1].midPoint());
+    }
   }
 
   drawLines() {
@@ -84,6 +95,9 @@ class CanvasMain {
   }
 
   drawCircle() {
+    if(this.triangulated) {
+      return ;
+    }
     const closestPoint = this.polygon.getClosestPoint(this.mouse);
     if(!closestPoint) {
       return ;
@@ -96,6 +110,7 @@ class CanvasMain {
     self.drawLines();
     self.drawCircle();
     self.triangulateMeshOnFrame();
+    self.drawMidPoints();
 
     self.nextFrame();
   }
@@ -122,6 +137,7 @@ class CanvasMain {
 
   clearSrcPoint() {
     this.srcPoint = null;
+    this.pathFound = null;
   }
 
   processClickRequest(_, self) {
