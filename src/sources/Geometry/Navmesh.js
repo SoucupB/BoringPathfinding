@@ -5,13 +5,32 @@ class Navmesh {
   constructor(polygon) {
     this.triangles = [];
     this.polygon = polygon;
+    this.triangleID = 0;
   }
 
   createTriangles(triangleIndexes) {
     const points = this.polygon;
     for(let i = 0, c = triangleIndexes.length; i < c; i += 3) {
-      this.triangles.push(new Triangle(points[triangleIndexes[i]], points[triangleIndexes[i + 1]], points[triangleIndexes[i + 2]]));
+      this.triangles.push(new Triangle(points[triangleIndexes[i]], points[triangleIndexes[i + 1]], points[triangleIndexes[i + 2]], this.triangleID++));
     }
+  }
+
+  createNeighbours() {
+    let triangleCheck = {};
+    if(!this.triangles.length) {
+      return ;
+    }
+    this.createNeighbours_t(this.triangles[0], triangleCheck);
+  }
+
+  createNeighbours_t(currentTriangle, triangleCheck = {}) {
+    if(currentTriangle.id in triangleCheck) {
+      return ;
+    }
+    for(let i = 0, c = this.triangles.length; i < c; i++) {
+
+    }
+
   }
   
   triangulate() {

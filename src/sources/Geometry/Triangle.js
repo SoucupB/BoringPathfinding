@@ -1,10 +1,11 @@
 import Point from "./Point.js";
 
 class Triangle {
-  constructor(a, b, c) {
+  constructor(a, b, c, id = 0) {
     this.a = a;
     this.b = b;
     this.c = c;
+    this.id = id;
 
     this.neighbours = [];
   }
@@ -22,6 +23,22 @@ class Triangle {
     const gamma = 1 - alpha - beta;
 
     return alpha > 0 && beta > 0 && gamma > 0;
+  }
+
+  areTriangleNeighbours(triB) {
+    return (
+      (this.a.arePointsEqual(triB.a) ? 1 : 0) +
+      (this.a.arePointsEqual(triB.b) ? 1 : 0) +
+      (this.a.arePointsEqual(triB.c) ? 1 : 0) +
+      
+      (this.b.arePointsEqual(triB.a) ? 1 : 0) +
+      (this.b.arePointsEqual(triB.b) ? 1 : 0) +
+      (this.b.arePointsEqual(triB.c) ? 1 : 0) +
+      
+      (this.c.arePointsEqual(triB.a) ? 1 : 0) +
+      (this.c.arePointsEqual(triB.b) ? 1 : 0) +
+      (this.c.arePointsEqual(triB.c) ? 1 : 0)
+    ) >= 2;
   }
 }
 
