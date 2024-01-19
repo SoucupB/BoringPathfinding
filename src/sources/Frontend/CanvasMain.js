@@ -1,7 +1,7 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
-import AStar from "../Searcher/AStart.js";
+import AStar from "../Searcher/AStar.js";
 
 class CanvasMain {
   constructor(canvas = null) {
