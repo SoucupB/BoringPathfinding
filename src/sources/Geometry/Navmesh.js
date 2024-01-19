@@ -54,8 +54,8 @@ class Navmesh {
   getTriangle(point) {
     const triangles = this.triangles;
     for(let i = 0, c = triangles.length; i < c; i++) {
-      if(triangles.isPointInside(point)) {
-        return triangles;
+      if(triangles[i].isPointInside(point)) {
+        return triangles[i];
       }
     }
     return null;

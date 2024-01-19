@@ -97,6 +97,10 @@ class Polygon {
     return true;
   }
 
+  getTriangle(point) {
+    return this.navmesh.getTriangle(point);
+  }
+
   linesCount() {
     return Math.max(0, this.lines.length - 1);
   }

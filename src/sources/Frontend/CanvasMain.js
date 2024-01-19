@@ -81,18 +81,34 @@ class CanvasMain {
     setTimeout(() => this.onFrame(this), 64);
   }
 
-  pressLine(_, self) {
-    const closestPoint = self.polygon.getClosestPoint(self.mouse);
+  addPointToPolygon() {
+    const closestPoint = this.polygon.getClosestPoint(this.mouse);
     if(!closestPoint) {
-      self.polygon.push(self.mouse.y, self.mouse.x);
+      this.polygon.push(this.mouse.y, this.mouse.x);
       return ;
     }
-    self.polygon.pushIndex(closestPoint[0]);
+    this.polygon.pushIndex(closestPoint[0]);
+  }
+
+  selectTriangle() {
+    if(!this.triangulated) {
+      return ;
+    }
+    const triangle = this.polygon.getTriangle(this.mouse);
+    if(!triangle) {
+      return ;
+    }
+    console.log(triangle)
+  }
+
+  processClickRequest(_, self) {
+    self.addPointToPolygon();
+    self.selectTriangle();
   }
 
   startMouseListener() {
     document.addEventListener('mousemove', (event) => this.updateMousePosition(event, this)); 
-    this.canvas.addEventListener("click", (event) => this.pressLine(event, this));
+    this.canvas.addEventListener("click", (event) => this.processClickRequest(event, this));
     this.nextFrame();
   }
 }
