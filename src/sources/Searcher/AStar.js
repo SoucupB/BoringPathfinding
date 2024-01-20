@@ -1,42 +1,55 @@
 import Heap from "./Heap.js";
 
 class AStar {
-  constructor(generateNeighbours = (_) => {
-    return [];
-  }, uniqueID = (a) => {
-    return a;
-  }, nodesDistanceMethod = (a, b) => {
-    return a < b;
-  }) {
+  constructor(generateNeighbours, uniqueID, edgeCost) {
     this.generateNeighbours = generateNeighbours;
     this.uniqueID = uniqueID;
-    this.visited = {};
-    this.heap = new Heap(nodesDistanceMethod);
+    this.edgeCost = edgeCost;
+    this.heap = new Heap((a, b) => {
+      return a.cost < b.cost;
+    });
+    this.cost = null;
   }
 
   search(src, dst) {
-    let nodes = [];
-    this.heap.push(src);
+    this.heap.push({
+      node: src,
+      cost: 0,
+      parent: null
+    });
 
-    return this.search_t(dst, nodes);
+    return this.search_t(dst);
   }
 
-  search_t(dst, nodes) {
+  retrieveTokens(dst) {
+    let nodes = [];
+    while(dst) {
+      nodes.push(dst.node);
+      dst = dst.parent;
+    }
+    return nodes.reverse();
+  }
+
+  search_t(dst) {
+    this.visited = {};
+
     while(this.heap.size()) {
       let currentNode = this.heap.top();
-      if(this.uniqueID(dst) == this.uniqueID(currentNode)) {
-        return nodes;
+      if(this.uniqueID(dst) == this.uniqueID(currentNode.node)) {
+        return this.retrieveTokens(currentNode);
       }
-      
       this.heap.pop();
-      nodes.push(currentNode);
-      this.visited[this.uniqueID(currentNode)] = true;
+      this.visited[this.uniqueID(currentNode.node)] = true;
 
-      let neighbours = this.generateNeighbours(currentNode);
+      let neighbours = this.generateNeighbours(currentNode.node);
 
       for(let i = 0, c = neighbours.length; i < c; i++) {
         if(!(this.uniqueID(neighbours[i]) in this.visited)) {
-          this.heap.push(neighbours[i]);
+          this.heap.push({
+            cost: this.edgeCost(currentNode.node, neighbours[i]) + currentNode.cost,
+            node: neighbours[i],
+            parent: currentNode
+          });
         }
       }
     }

@@ -71,5 +71,6 @@ test('Sort Heap Max', (t) => {
     t.equal(heap.top(), sortedArray[i], 'maximum element');
     heap.pop();
   }
+  t.equal(heap.size(), 0, 'size 0');
   t.end();
 });
