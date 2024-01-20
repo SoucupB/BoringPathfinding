@@ -1,7 +1,8 @@
+import Triangle from "../Geometry/Triangle.js";
+
 class Funnel {
-  constructor(navmesh) {
-    this.navmesh = navmesh;
-    this.triangles = navmesh.triangles;
+  constructor(triangles) {
+    this.triangles = triangles;
   }
 }
 
