@@ -21,7 +21,7 @@ class AStar {
     return this.search_t(dst);
   }
 
-  retrieveTokens(dst) {
+  retrieveNodes(dst) {
     let nodes = [];
     while(dst) {
       nodes.push(dst.node);
@@ -36,7 +36,7 @@ class AStar {
     while(this.heap.size()) {
       let currentNode = this.heap.top();
       if(this.uniqueID(dst) == this.uniqueID(currentNode.node)) {
-        return this.retrieveTokens(currentNode);
+        return this.retrieveNodes(currentNode);
       }
       this.heap.pop();
       this.visited[this.uniqueID(currentNode.node)] = true;
