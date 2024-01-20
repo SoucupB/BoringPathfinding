@@ -61,6 +61,10 @@ class Triangle {
     );
   }
 
+  midDistance(triA) {
+    return this.midPoint().distancef(triA.midPoint());
+  }
+
   areTriangleNeighbours(triB) {
     return (
       (this.a.arePointsEqual(triB.a) ? 1 : 0) +

@@ -49,7 +49,10 @@ test('Minimum path test', (t) => {
 
   let searcher = new AStar(Node.generateNeighbours, Node.getID, (nodeA, nodeB) => Node.edgeCost(nodeA, nodeB, costMethod));
 
-  console.log(searcher.search(nodes[0], nodes[4]));
-  t.equal(1, 1, 'minimum path');
+  let nodesChecker = [1, 3, 4, 5];
+  let searchNodes = searcher.search(nodes[0], nodes[4]);
+  for(let i = 0; i < nodesChecker.length; i++) {
+    t.equal(nodesChecker[i], searchNodes[i].id, 'minimum path');
+  }
   t.end();
 });

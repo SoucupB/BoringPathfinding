@@ -1,35 +1,16 @@
+import AStar from "./AStar.js";
+
 class Search {
   constructor(polygon) {
     this.polygon = polygon;
     this.navmesh = polygon.navmesh;
+    this.aStar = new AStar((triA) => triA.neighbours, (triA) => {
+      return triA.id;
+    }, (triA, triB) => triA.midDistance(triB));
   }
 
   search(src, dst) {
-    let visited = {};
-    let triangleTrail = [src];
-    visited[src.id] = 1;
-
-    this.search_t(src, dst, triangleTrail, visited, [false]);
-
-    return triangleTrail;
-  }
-
-  search_t(node, dst, triangleTrail = [], visited = {}, trailFound) {
-    if(node.id == dst.id) {
-      trailFound[0] = true;
-      return ;
-    }
-    for(let i = 0, c = node.neighbours.length; i < c; i++) {
-      const nextNode = node.neighbours[i];
-      if(!trailFound[0] && !(nextNode.id in visited)) {
-        triangleTrail.push(nextNode);
-        visited[nextNode.id] = 1;
-        this.search_t(nextNode, dst, triangleTrail, visited, trailFound);
-        if(!trailFound[0]) {
-          triangleTrail.pop();
-        }
-      }
-    }
+    return this.aStar.search(src, dst);
   }
 
   getNextPoint(currentPoint, currentIndex, triangles) {
