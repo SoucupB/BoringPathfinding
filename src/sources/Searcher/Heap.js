@@ -17,6 +17,10 @@ class Heap {
     return this.heap[0];
   }
 
+  size() {
+    return this.heap.length;
+  }
+
   pop() {
     if (this.heap.length === 0) {
       return null;
