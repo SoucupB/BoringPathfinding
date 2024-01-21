@@ -6,17 +6,33 @@ class Funnel {
   constructor() {
   }
 
-  static construct_t(triangles) {
-    let funnel = new Polygon();
+  static midLines(triangles) {
+    let points = [];
+    for(let i = 0, c = triangles.length; i < c; i++) {
+      points.push(triangles[i].midPoint());
+    }
 
+    return points;
+  }
+
+  static doesMidLineIntersecLines(st, end, midLines) {
+    for(let i = 0, c = midLines.length - 1; i < c; i++) {
+      if(Point.areSegmentsIntersecting(st, end, midLines[i], midLines[i + 1])) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  static construct_t(triangles) {
     const startingPoints = triangles[0].disjointPoints(triangles[1]);
     if(startingPoints.length != 1) {
       return null;
     }
     const startingPoint = startingPoints[0];
-
-    
-
+    const midLines = Funnel.midLines(triangles);
+    // to do tommorow.
   }
 
   static construct(triangles) {
