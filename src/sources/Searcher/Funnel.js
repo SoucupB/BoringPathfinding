@@ -2,6 +2,27 @@ import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
 import Triangle from "../Geometry/Triangle.js";
 
+class Line {
+  constructor(pointA, pointB) {
+    this.pointA = pointA;
+    this.pointB = pointB;
+  }
+
+  jointPoints(line) {
+    let points = [];
+    let pointALine = [this.pointA, this.pointB];
+    let pointBLine = [line.pointA, line.pointB];
+    for(let i = 0; i < 2; i++) {
+      for(let j = 0; j < 2; j++) {
+        if(pointALine[i].arePointsEqual(pointBLine[j])) {
+          points.push(pointALine[i]);
+        }
+      }
+    }
+    return points;
+  }
+}
+
 class Funnel {
   constructor() {
   }
@@ -21,8 +42,75 @@ class Funnel {
         return true;
       }
     }
-
     return false;
+  }
+
+  static printFunnelLines(funnel) {
+    let resp = [];
+    for(let i = 0; i < funnel.length; i++) {
+      resp.push(`(${funnel[i].pointA.y},${funnel[i].pointA.x}),(${funnel[i].pointB.y},${funnel[i].pointB.x})`);
+    }
+
+    console.log(resp.join('\n'))
+  }
+
+  static printFunnelPoints(funnel) {
+    let resp = [];
+    for(let i = 0, c = funnel.length; i < c; i++) {
+      resp.push(`(${funnel[i].y},${funnel[i].x})`);
+    }
+
+    console.log(resp.join(','))
+  }
+
+  static getValidLinesFromTriangle(triangle, midLines, hull = []) {
+    let points = [triangle.a, triangle.b, triangle.c];
+
+    for(let i = 0; i < 2; i++) {
+      for(let j = i + 1; j < 3; j++) {
+        if(!Funnel.doesMidLineIntersecLines(points[i], points[j], midLines)) {
+          hull.push(new Line(points[i], points[j]));
+        }
+      }
+    }
+  }
+
+  static sortHull_t(hull, lineCount, lastIndex = 0, pointsArray = []) {
+    for(let i = 0, c = hull.length; i < c; i++) {
+      const jointPoints = hull[i].jointPoints(hull[lastIndex]);
+      if(i != lastIndex && jointPoints.length == 1 && !lineCount[i]) {
+        lineCount[i] = 1;
+        pointsArray.push(jointPoints[0]);
+        Funnel.sortHull_t(hull, lineCount, i, pointsArray);
+      }
+    }
+  }
+
+  static sortHull(hull) {
+    let lineCount = new Array(hull.length).fill(0);
+    let pointsArray = [];
+    lineCount[0] = 1;
+    Funnel.sortHull_t(hull, lineCount, 0, pointsArray);
+    if(pointsArray[0].arePointsEqual(hull[0].pointA)) {
+      pointsArray.push(hull[0].pointB);
+    }
+    else {
+      pointsArray.push(hull[0].pointA);
+    }
+    let polygon = new Polygon();
+    for(let i = 0, c = pointsArray.length; i < c; i++) {
+      polygon.push(pointsArray[i].y, pointsArray[i].x)
+    }
+    polygon.pushIndex(0);
+    return polygon;
+  }
+
+  static searchPath(triangles, midLines) {
+    let hull = [];
+    for(let i = 0, c = triangles.length; i < c; i++) {
+      Funnel.getValidLinesFromTriangle(triangles[i], midLines, hull)
+    }
+    return Funnel.sortHull(hull);
   }
 
   static construct_t(triangles) {
@@ -30,9 +118,8 @@ class Funnel {
     if(startingPoints.length != 1) {
       return null;
     }
-    const startingPoint = startingPoints[0];
     const midLines = Funnel.midLines(triangles);
-    // to do tommorow.
+    return Funnel.searchPath(triangles, midLines);
   }
 
   static construct(triangles) {

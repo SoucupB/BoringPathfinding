@@ -84,6 +84,19 @@ class Triangle {
     return points;
   }
 
+  disjointPointsFromPoint(point) {
+    let points = [];
+    let trianglePoints = [this.a, this.b, this.c];
+
+    for(let i = 0, c = trianglePoints.length; i < c; i++) {
+      if(!point.arePointsEqual(trianglePoints[i])) {
+        points.push(trianglePoints[i]);
+      }
+    }
+
+    return points;
+  }
+
   commonPoints(triangle) {
     let points = [];
     let trianglePoints = [this.a, this.b, this.c];
