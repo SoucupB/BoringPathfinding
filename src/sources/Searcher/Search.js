@@ -27,27 +27,33 @@ class Search {
     return index;
   }
 
+  searchFunnelPoints(funnel, src, dst) {
+    
+  }
+
   // to modify this
-  getPointsPathFromTriangle(srcTriangle, dstTriangle, pathPoints = []) {
+  getPointsPathFromTriangle(srcTriangle, dstTriangle, src, dst) {
     let triangles = this.search(srcTriangle, dstTriangle);
     let funnel = Funnel.construct(triangles);
-    // console.log(funnel)
-    Polygon.print(funnel);
-
+    // Polygon.print(funnel);
     if(triangles.length <= 1) {
       return [srcTriangle];
     }
-    let startingPoint = triangles[0].midPoint();
-    pathPoints.push(startingPoint)
-
-    let lastIndex = 0;
-    let nextIndex = this.getNextPoint(startingPoint, 0, triangles);
-    while(nextIndex != lastIndex) {
-      startingPoint = triangles[nextIndex].midPoint()
-      pathPoints.push(startingPoint);
-      lastIndex = nextIndex;
-      nextIndex = this.getNextPoint(startingPoint, nextIndex, triangles);
+    let pathPoints = [srcTriangle.midPoint()];
+    for(let i = 0; i < triangles.length; i++) {
+      pathPoints.push(triangles[i].midPoint());
     }
+    // let startingPoint = triangles[0].midPoint();
+    // pathPoints.push(startingPoint)
+
+    // let lastIndex = 0;
+    // let nextIndex = this.getNextPoint(startingPoint, 0, triangles);
+    // while(nextIndex != lastIndex) {
+    //   startingPoint = triangles[nextIndex].midPoint()
+    //   pathPoints.push(startingPoint);
+    //   lastIndex = nextIndex;
+    //   nextIndex = this.getNextPoint(startingPoint, nextIndex, triangles);
+    // }
     return pathPoints;
   }
 
@@ -61,7 +67,7 @@ class Search {
       return null;
     }
 
-    return [src, ...this.getPointsPathFromTriangle(triangleSrc, triangleDst), dst]
+    return [src, ...this.getPointsPathFromTriangle(triangleSrc, triangleDst, src, dst), dst]
   }
 }
 

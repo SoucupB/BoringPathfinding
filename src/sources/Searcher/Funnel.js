@@ -63,6 +63,34 @@ class Funnel {
     console.log(resp.join(','))
   }
 
+  static printTrianglePoints(triangles) {
+    let response = [];
+
+    for(let i = 0, c = triangles.length; i < c; i++) {
+      const triangle = triangles[i];
+      let points = [triangle.a, triangle.b, triangle.c];
+      for(let j = 0; j < points.length; j++) {
+        for(let k = j + 1; k < points.length; k++) {
+          response.push(`(${points[j].y},${points[j].x}),(${points[k].y},${points[k].x})`)
+        }
+      }
+    }
+    console.log(response.join(','))
+  }
+
+  static triangleToLines(triangle) {
+    let points = [triangle.a, triangle.b, triangle.c];
+    let lines = [];
+
+    for(let i = 0; i < 2; i++) {
+      for(let j = i + 1; j < 3; j++) {
+        lines.push(new Line(points[i], points[j]));
+      }
+    }
+
+    return lines;
+  }
+
   static getValidLinesFromTriangle(triangle, midLines, hull = []) {
     let points = [triangle.a, triangle.b, triangle.c];
 
@@ -97,6 +125,7 @@ class Funnel {
     else {
       pointsArray.push(hull[0].pointA);
     }
+    // Funnel.printFunnelPoints(pointsArray);
     let polygon = new Polygon();
     for(let i = 0, c = pointsArray.length; i < c; i++) {
       polygon.push(pointsArray[i].y, pointsArray[i].x)
@@ -114,6 +143,7 @@ class Funnel {
   }
 
   static construct_t(triangles) {
+    Funnel.printTrianglePoints(triangles);
     const startingPoints = triangles[0].disjointPoints(triangles[1]);
     if(startingPoints.length != 1) {
       return null;
