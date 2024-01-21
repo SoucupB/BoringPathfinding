@@ -31,25 +31,37 @@ class AStar {
   }
 
   search_t(dst) {
-    this.visited = {};
+    let visited = {};
+    let costPerID = {};
 
     while(this.heap.size()) {
       let currentNode = this.heap.top();
-      if(this.uniqueID(dst) == this.uniqueID(currentNode.node)) {
+      const currentNodeID = this.uniqueID(currentNode.node);
+
+      if(this.uniqueID(dst) == currentNodeID) {
         return this.retrieveNodes(currentNode);
       }
       this.heap.pop();
-      this.visited[this.uniqueID(currentNode.node)] = true;
+      visited[currentNodeID] = true;
 
       let neighbours = this.generateNeighbours(currentNode.node);
 
       for(let i = 0, c = neighbours.length; i < c; i++) {
-        if(!(this.uniqueID(neighbours[i]) in this.visited)) {
+        const neighbourID = this.uniqueID(neighbours[i]);
+
+        if(!(neighbourID in visited)) {
+          const currentCost = this.edgeCost(currentNode.node, neighbours[i]) + currentNode.cost;
+          if((neighbourID in costPerID) && costPerID[neighbourID] < currentCost) {
+            continue;
+          }
+
           this.heap.push({
-            cost: this.edgeCost(currentNode.node, neighbours[i]) + currentNode.cost,
+            cost: currentCost,
             node: neighbours[i],
             parent: currentNode
           });
+
+          costPerID[neighbourID] = currentCost;
         }
       }
     }

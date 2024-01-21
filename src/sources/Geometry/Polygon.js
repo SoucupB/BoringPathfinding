@@ -2,8 +2,8 @@ import Point from './Point.js'
 import Navmesh from './Navmesh.js';
 
 class Polygon {
-  constructor() {
-    this.lines = [];
+  constructor(points = []) {
+    this.lines = points;
     this.holes = [];
     this.autocompletePointDistance = 3;
     this.complete = false;

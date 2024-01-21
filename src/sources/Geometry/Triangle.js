@@ -65,6 +65,38 @@ class Triangle {
     return this.midPoint().distancef(triA.midPoint());
   }
 
+  doesTriangleHavePoint(point) {
+    return this.a.arePointsEqual(point) ||
+           this.b.arePointsEqual(point) ||
+           this.c.arePointsEqual(point);
+  }
+
+  disjointPoints(triangle) {
+    let points = [];
+    let trianglePoints = [this.a, this.b, this.c];
+
+    for(let i = 0, c = trianglePoints.length; i < c; i++) {
+      if(!triangle.doesTriangleHavePoint(trianglePoints[i])) {
+        points.push(trianglePoints[i]);
+      }
+    }
+
+    return points;
+  }
+
+  commonPoints(triangle) {
+    let points = [];
+    let trianglePoints = [this.a, this.b, this.c];
+
+    for(let i = 0, c = trianglePoints.length; i < c; i++) {
+      if(triangle.doesTriangleHavePoint(trianglePoints[i])) {
+        points.push(trianglePoints[i]);
+      }
+    }
+
+    return points;
+  }
+
   areTriangleNeighbours(triB) {
     return (
       (this.a.arePointsEqual(triB.a) ? 1 : 0) +
