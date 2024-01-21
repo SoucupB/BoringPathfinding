@@ -1,3 +1,4 @@
+import Polygon from "../Geometry/Polygon.js";
 import AStar from "./AStar.js";
 import Funnel from "./Funnel.js";
 
@@ -29,7 +30,9 @@ class Search {
   // to modify this
   getPointsPathFromTriangle(srcTriangle, dstTriangle, pathPoints = []) {
     let triangles = this.search(srcTriangle, dstTriangle);
-    let funnel = new Funnel();
+    let funnel = Funnel.construct(triangles);
+    // console.log(funnel)
+    Polygon.print(funnel);
 
     if(triangles.length <= 1) {
       return [srcTriangle];

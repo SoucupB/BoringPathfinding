@@ -45,6 +45,14 @@ class Polygon {
     return true;
   }
 
+  static print(polygon) {
+    let resp = [];
+    for(let i = 0, c = polygon.lines.length; i < c; i++) {
+      resp.push(`(${polygon.lines[i].y},${polygon.lines[i].x})`);
+    }
+    console.log(resp.join(','))
+  }
+
   distancef(a, b) {
     return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
   }
