@@ -21,6 +21,10 @@ class Line {
     }
     return points;
   }
+
+  areLinesEqual(lineA) {
+    return this.jointPoints(lineA).length == 2;
+  }
 }
 
 class Funnel {
@@ -91,14 +95,22 @@ class Funnel {
     return lines;
   }
 
-  static getValidLinesFromTriangle(triangle, midLines, hull = []) {
-    let points = [triangle.a, triangle.b, triangle.c];
+  static getValidLinesFromTriangle(triangles, hull = []) {
+    let allAlines = [];
+    for(let i = 0, c = triangles.length; i < c; i++) {
+      allAlines = allAlines.concat(Funnel.triangleToLines(triangles[i]));
+    }
+    for(let i = 0, c = allAlines.length; i < c; i++) {
+      let unique = 1;
 
-    for(let i = 0; i < 2; i++) {
-      for(let j = i + 1; j < 3; j++) {
-        if(!Funnel.doesMidLineIntersecLines(points[i], points[j], midLines)) {
-          hull.push(new Line(points[i], points[j]));
+      for(let j = 0; j < c; j++) {
+        if(i != j && allAlines[i].areLinesEqual(allAlines[j])) {
+          unique = 0;
+          break;
         }
+      }
+      if(unique) {
+        hull.push(allAlines[i]);
       }
     }
   }
@@ -134,22 +146,18 @@ class Funnel {
     return polygon;
   }
 
-  static searchPath(triangles, midLines) {
+  static searchPath(triangles) {
     let hull = [];
-    for(let i = 0, c = triangles.length; i < c; i++) {
-      Funnel.getValidLinesFromTriangle(triangles[i], midLines, hull)
-    }
+    Funnel.getValidLinesFromTriangle(triangles, hull)
     return Funnel.sortHull(hull);
   }
 
   static construct_t(triangles) {
-    Funnel.printTrianglePoints(triangles);
     const startingPoints = triangles[0].disjointPoints(triangles[1]);
     if(startingPoints.length != 1) {
       return null;
     }
-    const midLines = Funnel.midLines(triangles);
-    return Funnel.searchPath(triangles, midLines);
+    return Funnel.searchPath(triangles);
   }
 
   static construct(triangles) {

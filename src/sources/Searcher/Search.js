@@ -35,7 +35,7 @@ class Search {
   getPointsPathFromTriangle(srcTriangle, dstTriangle, src, dst) {
     let triangles = this.search(srcTriangle, dstTriangle);
     let funnel = Funnel.construct(triangles);
-    // Polygon.print(funnel);
+    Polygon.print(funnel);
     if(triangles.length <= 1) {
       return [srcTriangle];
     }
@@ -43,17 +43,6 @@ class Search {
     for(let i = 0; i < triangles.length; i++) {
       pathPoints.push(triangles[i].midPoint());
     }
-    // let startingPoint = triangles[0].midPoint();
-    // pathPoints.push(startingPoint)
-
-    // let lastIndex = 0;
-    // let nextIndex = this.getNextPoint(startingPoint, 0, triangles);
-    // while(nextIndex != lastIndex) {
-    //   startingPoint = triangles[nextIndex].midPoint()
-    //   pathPoints.push(startingPoint);
-    //   lastIndex = nextIndex;
-    //   nextIndex = this.getNextPoint(startingPoint, nextIndex, triangles);
-    // }
     return pathPoints;
   }
 
