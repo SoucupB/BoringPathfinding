@@ -1,31 +1,6 @@
 import Point from "../Geometry/Point.js";
 import Polygon from "../Geometry/Polygon.js";
-import Triangle from "../Geometry/Triangle.js";
-
-class Line {
-  constructor(pointA, pointB) {
-    this.pointA = pointA;
-    this.pointB = pointB;
-  }
-
-  jointPoints(line) {
-    let points = [];
-    let pointALine = [this.pointA, this.pointB];
-    let pointBLine = [line.pointA, line.pointB];
-    for(let i = 0; i < 2; i++) {
-      for(let j = 0; j < 2; j++) {
-        if(pointALine[i].arePointsEqual(pointBLine[j])) {
-          points.push(pointALine[i]);
-        }
-      }
-    }
-    return points;
-  }
-
-  areLinesEqual(lineA) {
-    return this.jointPoints(lineA).length == 2;
-  }
-}
+import Line from "../Geometry/Line.js";
 
 class Funnel {
   constructor() {
@@ -58,10 +33,11 @@ class Funnel {
     console.log(resp.join('\n'))
   }
 
-  static printFunnelPoints(funnel) {
+  static print(funnel) {
     let resp = [];
-    for(let i = 0, c = funnel.length; i < c; i++) {
-      resp.push(`(${funnel[i].y},${funnel[i].x})`);
+    let lines = funnel.lines;
+    for(let i = 0, c = lines.length; i < c; i++) {
+      resp.push(`(${lines[i].x},${lines[i].y})`);
     }
 
     console.log(resp.join(','))
@@ -152,12 +128,58 @@ class Funnel {
     return Funnel.sortHull(hull);
   }
 
+  static rotatePoint(point, center, angle) {
+    const thetaRad = (Math.PI / 180) * angle;
+    const newX = (point.x - center.x) * Math.cos(thetaRad) - (point.y - center.y) * Math.sin(thetaRad) + center.x;
+    const newY = (point.x - center.x) * Math.sin(thetaRad) + (point.y - center.y) * Math.cos(thetaRad) + center.y;
+    return new Point(newY, newX);
+  }
+
   static construct_t(triangles) {
     const startingPoints = triangles[0].disjointPoints(triangles[1]);
     if(startingPoints.length != 1) {
       return null;
     }
     return Funnel.searchPath(triangles);
+  }
+
+  static calculateBisectorPoints(pointA, pointB, pointC, length) {
+    const vectorAB = new Point(pointB.y - pointA.y, pointB.x - pointA.x)
+    const vectorBC = new Point(pointC.y - pointB.y, pointC.x - pointB.x);
+    const bisector1 = Funnel.calculateBisectorVector(vectorAB, vectorBC);
+    const bisectorPoint1 = Funnel.extendPoint(pointB, bisector1, length);
+  
+    return [bisectorPoint1, Funnel.rotatePoint(bisectorPoint1, pointB, 180)];
+  }
+
+  static calculateBisectorVector(v1, v2) {
+    const angle1 = Math.atan2(v1.y, v1.x);
+    const angle2 = Math.atan2(v2.y, v2.x);
+    const bisectorAngle = (angle1 + angle2 + Math.PI) / 2;
+  
+    return new Point(Math.sin(bisectorAngle), Math.cos(bisectorAngle));
+  }
+
+  static extendPoint(point, vector, length) {
+    return new Point(point.y + vector.y * length, point.x + vector.x * length)
+  }
+
+  static constructBisectorsArray(funnel) {
+    let bisectors = [];
+    let points = funnel.lines;
+    for(let i = 0, c = points.length - 1; i < c; i++) {
+      let pointA = points[i], pointB = points[(i + 1) % c], pointC = points[(i + 2) % c];
+
+      let bisectorPoints = Funnel.calculateBisectorPoints(pointA, pointB, pointC, 0.01);
+      for(let j = 0; j < 2; j++) {
+        if(funnel.isPointInsidePolygon(bisectorPoints[j])) {
+          bisectors.push(new Line(pointB, bisectorPoints[j]));
+          break;
+        }
+      }
+    }
+
+    return bisectors;
   }
 
   static construct(triangles) {
