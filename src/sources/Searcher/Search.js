@@ -35,7 +35,6 @@ class Search {
     console.log(`(${bisector.pointA.y},${bisector.pointA.x}),(${bisector.pointB.y},${bisector.pointB.x})`)
   }
 
-  // to test tommorow..
   searchFunnelPoints_t(funnel, bisectors, src, dst) {
     let searchAlgo = new AStar((bisector) => {
       let neigh = [];
