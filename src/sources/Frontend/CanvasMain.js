@@ -24,12 +24,12 @@ class CanvasMain {
 
   updateMousePosition(event) {
     if((event.clientX < this.boundingBox.x || event.clientY < this.boundingBox.y) || 
-       (event.clientX > this.boundingBox.width || event.clientY > this.boundingBox.height)) {
+       (event.clientX > this.boundingBox.width + this.boundingBox.x || event.clientY > this.boundingBox.height + this.boundingBox.y)) {
       return ;
     }
 
-    this.mouse.y = (event.clientY - this.boundingBox.y) / (this.boundingBox.height - this.boundingBox.y) * 100.0;
-    this.mouse.x = (event.clientX - this.boundingBox.x) / (this.boundingBox.width - this.boundingBox.x) * 100.0;
+    this.mouse.y = (event.clientY - this.boundingBox.y) / (this.boundingBox.height) * 100.0;
+    this.mouse.x = (event.clientX - this.boundingBox.x) / (this.boundingBox.width) * 100.0;
   }
 
   processMouseMovement(event, self) {
