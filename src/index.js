@@ -14,3 +14,7 @@ document.getElementById('button-triangulate').addEventListener('click', () => {
 document.getElementById('clear-src-point').addEventListener('click', () => {
   canvas.clearSrcPoint();
 })
+
+document.getElementById('deactivate-navmesh').addEventListener('change', (event) => {
+  canvas.disableInput();
+})

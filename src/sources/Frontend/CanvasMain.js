@@ -11,11 +11,13 @@ class CanvasMain {
     this.ctx = canvas.getContext("2d");
     this.boundingBox = canvas.getBoundingClientRect();
     this.polygon = new Polygon();
-    this.triangulated = false;
-    this.triangles = [];
+    // this.triangulated = false;
     this.srcPoint = null;
     this.searcher = null;
     this.pathFound = null;
+    this.displayFlag = {
+      triangulated: false
+    }
   }
 
   clearCanvas() {
@@ -44,18 +46,22 @@ class CanvasMain {
     this.pathFound = this.searcher.getPointsPath(this.srcPoint, this.mouse);
   }
 
+  disableInput() {
+    this.displayFlag.triangulated = !this.displayFlag.triangulated;
+  }
+
   drawMidPoints() {
     if(!this.pathFound) {
       return ;
     }
     
     for(let i = 0, c = this.pathFound.length - 1; i < c; i++) {
-      Drawer.canvas_DrawLine(this.pathFound[i], this.pathFound[i + 1]);
+      Drawer.canvas_DrawLine(this.pathFound[i], this.pathFound[i + 1], this.canvas, 'orange');
     }
   }
 
   drawLines() {
-    if(this.triangulated) {
+    if(this.displayFlag.triangulated) {
       return ;
     }
 
@@ -67,11 +73,11 @@ class CanvasMain {
   triangulateMesh() {
     this.polygon.triangulate();
     this.searcher = new Search(this.polygon);
-    this.triangulated = true;
+    this.displayFlag.triangulated = true;
   }
 
   triangulateMeshOnFrame() {
-    if(!this.triangulated) {
+    if(!this.displayFlag.triangulated) {
       return ;
     }
 
@@ -86,7 +92,7 @@ class CanvasMain {
   }
 
   drawCircle() {
-    if(this.triangulated) {
+    if(this.displayFlag.triangulated) {
       return ;
     }
     const closestPoint = this.polygon.getClosestPoint(this.mouse);
@@ -120,7 +126,7 @@ class CanvasMain {
   }
 
   selectTriangle() {
-    if(!this.triangulated) {
+    if(!this.searcher) {
       return ;
     }
     this.srcPoint = new Point(this.mouse.y, this.mouse.x);
