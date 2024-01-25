@@ -10,9 +10,14 @@
 </head>
 <body>
   <div class="parent">
+    <h1>Navmesh Searcher</h1>
     <canvas class="canvas-parent" id="canvas-drawer" width="400" height="400"></canvas>
-    <button id="button-triangulate">Create navmesh</button>
-    <button id="clear-src-point">Clear src point</button>
+    <label class="space checkbox-container">Deactivate navmesh
+      <input type="checkbox" class="checkbox-input">
+      <span class="checkmark"></span>
+    </label>
+    <div class="space parent-button" id="button-triangulate">Create navmesh</div>
+    <div class="space parent-button" id="clear-src-point">Clear src point</div>
   </div>
 </body>
 </html>
