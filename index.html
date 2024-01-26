@@ -6,17 +6,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="dist/bundle.js" defer></script>
   <link rel="stylesheet" type="text/css" href="src/styles/canvas.css">
-  <title>Webpack Example</title>
+  <title>Navmesh searcher</title>
 </head>
 <body>
   <div class="parent">
     <h1>Navmesh Searcher</h1>
+    <p>Try to draw a non-self intersecting polygon, press "Create navmesh",</br>
+       then put a pointer inside the polygon and move the mouse around the polygon.</p>
     <canvas class="canvas-parent" id="canvas-drawer" width="640" height="640"></canvas>
     <label class="space checkbox-container">Deactivate navmesh
       <input id="deactivate-navmesh" type="checkbox" class="checkbox-input">
       <span class="checkmark"></span>
     </label>
-    <div class="space parent-button" id="button-triangulate">Create navmesh view</div>
+    <div class="space parent-button" id="button-triangulate">Create navmesh</div>
     <div class="space parent-button" id="clear-src-point">Clear src point</div>
   </div>
 </body>
