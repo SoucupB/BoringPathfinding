@@ -11,7 +11,6 @@ class CanvasMain {
     this.ctx = canvas.getContext("2d");
     this.boundingBox = canvas.getBoundingClientRect();
     this.polygon = new Polygon();
-    // this.triangulated = false;
     this.srcPoint = null;
     this.searcher = null;
     this.pathFound = null;
