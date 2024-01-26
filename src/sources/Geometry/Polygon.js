@@ -66,8 +66,8 @@ class Polygon {
     return null;
   }
 
-  pushIndex(index) {
-    if(this.complete || index != 0 || this.lines.length < 2) {
+  closePolygon() {
+    if(this.complete|| this.lines.length < 2) {
       return false;
     }
     const point = this.lines[0];

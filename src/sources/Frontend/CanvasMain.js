@@ -122,7 +122,9 @@ class CanvasMain {
       this.polygon.push(this.mouse.y, this.mouse.x);
       return ;
     }
-    this.polygon.pushIndex(closestPoint[0]);
+    if(closestPoint[0] == 0) {
+      this.polygon.closePolygon();
+    }
   }
 
   selectTriangle() {

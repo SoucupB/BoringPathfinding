@@ -87,26 +87,16 @@ test('Push index v1', (t) => {
   for(let i = 0; i < points.length; i++) {
     polygon.push(points[i][0], points[i][1])
   }
-  t.equal(polygon.pushIndex(0), true, `cross line`);
+  t.equal(polygon.closePolygon(), true, `cross line`);
   t.end();
 });
 
-test('Push index v2', (t) => {
-  const polygon = new Polygon();
-  let points = [[0, 0], [0, 5], [5, 5], [3, 3]]
-  for(let i = 0; i < points.length; i++) {
-    polygon.push(points[i][0], points[i][1])
-  }
-  t.equal(polygon.pushIndex(1), false, `cross line`);
-  t.end();
-});
-
-test('Push index (self intersecting) v3', (t) => {
+test('Push index (self intersecting) v2', (t) => {
   const polygon = new Polygon();
   let points = [[0, 0], [0, 5], [5, 5], [3, 6]]
   for(let i = 0; i < points.length; i++) {
     polygon.push(points[i][0], points[i][1])
   }
-  t.equal(polygon.pushIndex(0), false, `cross line`);
+  t.equal(polygon.closePolygon(), false, `cross line`);
   t.end();
 });

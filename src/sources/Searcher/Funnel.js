@@ -118,7 +118,7 @@ class Funnel {
     for(let i = 0, c = pointsArray.length; i < c; i++) {
       polygon.push(pointsArray[i].y, pointsArray[i].x)
     }
-    polygon.pushIndex(0);
+    polygon.closePolygon(0);
     return polygon;
   }
 
