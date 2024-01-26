@@ -92,7 +92,7 @@ class CanvasMain {
   }
 
   drawCircle() {
-    if(this.displayFlag.triangulated) {
+    if(this.searcher) {
       return ;
     }
     const closestPoint = this.polygon.getClosestPoint(this.mouse);
