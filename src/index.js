@@ -6,6 +6,7 @@ const canvas = new CanvasMain(canvasDOM);
 canvas.startMouseListener();
 
 document.getElementById('button-triangulate').addEventListener('click', () => {
+  document.getElementById('deactivate-navmesh').disabled = false;
   canvas.triangulateMesh();
 })
 
@@ -16,3 +17,5 @@ document.getElementById('clear-src-point').addEventListener('click', () => {
 document.getElementById('deactivate-navmesh').addEventListener('change', (event) => {
   canvas.disableInput();
 })
+
+document.getElementById('deactivate-navmesh').disabled = true
