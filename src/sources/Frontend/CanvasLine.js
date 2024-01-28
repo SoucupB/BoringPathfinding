@@ -1,4 +1,5 @@
-import Point from "../Geometry/Point.js"
+// import Point from "../Geometry/Point.js"
+import { Point } from 'polygon-pathfinding';
 
 class Drawer {
   static canvas_GetNormalisedValue(point, canvas = document.getElementById('canvas-drawer')) {

@@ -1,7 +1,4 @@
-// import Point from "../Geometry/Point.js";
-// import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
-// import Search from "../Searcher/Search.js";
 import { Polygon, Point, Search } from "polygon-pathfinding"
 
 class CanvasMain {
