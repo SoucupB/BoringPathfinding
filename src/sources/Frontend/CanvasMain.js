@@ -74,11 +74,14 @@ class CanvasMain {
   }
 
   triangulateMeshOnFrame() {
-    if(!this.displayFlag.triangulated) {
+    if(!this.displayFlag.triangulated || !this.polygon) {
       return ;
     }
 
     const triangleIndexes = this.polygon.getTriangleIndexes();
+    if(!triangleIndexes) {
+      return ;
+    }
 
     for(let i = 0, c = triangleIndexes.length; i < c; i++) {
       const triangle = triangleIndexes[i];
