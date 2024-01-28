@@ -1,4 +1,3 @@
-import Polygon from "../Geometry/Polygon.js";
 import AStar from "./AStar.js";
 import Funnel from "./Funnel.js";
 import Line from "../Geometry/Line.js";
@@ -12,7 +11,7 @@ class Search {
     }
     this.aStar = new AStar((triA) => triA.neighbours, (triA) => {
       return triA.id;
-    }, (triA, triB) => triA.midDistance(triB));
+    }, (triA, triB) => triA.midDistance(triB), (triA, triB) => triA.midDistance(triB));
   }
 
   search(src, dst) {
@@ -49,17 +48,20 @@ class Search {
       return neigh;
     }, (bisector) => {
       return bisector.id;
-    }, (bisectorA, bisectorB) => bisectorA.pointB.distancef(bisectorB.pointB));
+    }, (bisectorA, bisectorB) => bisectorA.pointB.distancef(bisectorB.pointB),
+       (bisectorA, bisectorB) => bisectorA.pointB.distancef(bisectorB.pointB));
 
     return searchAlgo.search(src, dst);
   }
 
   searchFunnelPoints(funnel, src, dst) {
     let bisectors = Funnel.constructBisectorsArray(funnel);
-    return this.searchFunnelPoints_t(funnel, bisectors, new Line(new Point(-5, -5), new Point(src.y, src.x)), new Line(new Point(-5, -5), new Point(dst.y, dst.x)));
+    let srcPoint = new Point(src.y, src.x);
+    let dstPoint = new Point(dst.y, dst.x);
+
+    return this.searchFunnelPoints_t(funnel, bisectors, new Line(srcPoint, srcPoint), new Line(dstPoint, dstPoint));
   }
 
-  // to modify this
   getPointsPathFromTriangle(srcTriangle, dstTriangle, src, dst) {
     let triangles = this.search(srcTriangle, dstTriangle);
     let funnel = Funnel.construct(triangles);
@@ -84,8 +86,7 @@ class Search {
     if(!triangleDst) {
       return null;
     }
-
-    return [src, ...this.getPointsPathFromTriangle(triangleSrc, triangleDst, src, dst), dst]
+    return this.getPointsPathFromTriangle(triangleSrc, triangleDst, src, dst);
   }
 }
 

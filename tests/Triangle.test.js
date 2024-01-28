@@ -1,8 +1,8 @@
 import tap from 'tap'
 const { test } = tap;
 
-import Triangle from '../sources/Geometry/Triangle.js';
-import Point from '../sources/Geometry/Point.js';
+import Triangle from '../src/sources/Geometry/Triangle.js';
+import Point from '../src/sources/Geometry/Point.js';
 
 test('Point inside triangle', (t) => {
   const triangle = new Triangle(

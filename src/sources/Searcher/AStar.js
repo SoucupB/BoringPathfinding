@@ -1,10 +1,11 @@
 import Heap from "./Heap.js";
 
 class AStar {
-  constructor(generateNeighbours, uniqueID, edgeCost) {
+  constructor(generateNeighbours, uniqueID, edgeCost, edgeHeuristics) {
     this.generateNeighbours = generateNeighbours;
     this.uniqueID = uniqueID;
     this.edgeCost = edgeCost;
+    this.edgeHeuristics = edgeHeuristics;
     this.heap = new Heap((a, b) => {
       return a.cost < b.cost;
     });

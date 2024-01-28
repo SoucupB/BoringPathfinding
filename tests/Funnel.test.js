@@ -1,10 +1,10 @@
 import tap from 'tap'
 const { test } = tap;
-import Funnel from '../sources/Searcher/Funnel.js';
-import Triangle from '../sources/Geometry/Triangle.js';
-import Point from '../sources/Geometry/Point.js';
-import Polygon from '../sources/Geometry/Polygon.js';
-import Search from '../sources/Searcher/Search.js';
+import Funnel from '../src/sources/Searcher/Funnel.js';
+import Triangle from '../src/sources/Geometry/Triangle.js';
+import Point from '../src/sources/Geometry/Point.js';
+import Polygon from '../src/sources/Geometry/Polygon.js';
+import Search from '../src/sources/Searcher/Search.js';
 
 test('Check funnel creation', (t) => {
   const totalPath = [

@@ -1,9 +1,9 @@
 import tap from 'tap'
 const { test } = tap;
 
-import Triangle from '../sources/Geometry/Triangle.js';
-import Point from '../sources/Geometry/Point.js';
-import Navmesh from '../sources/Geometry/Navmesh.js';
+import Triangle from '../src/sources/Geometry/Triangle.js';
+import Point from '../src/sources/Geometry/Point.js';
+import Navmesh from '../src/sources/Geometry/Navmesh.js';
 
 test('2 triangles for a square', (t) => {
   let navmesh = new Navmesh([

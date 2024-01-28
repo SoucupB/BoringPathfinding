@@ -1,7 +1,7 @@
 import tap from 'tap'
 const { test } = tap;
 
-import Heap from '../sources/Searcher/Heap.js';
+import Heap from '../src/sources/Searcher/Heap.js';
 
 test('Heap test', (t) => {
   let heap = new Heap((a, b) => {

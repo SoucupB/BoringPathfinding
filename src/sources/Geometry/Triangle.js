@@ -11,18 +11,21 @@ class Triangle {
   }
 
   isPointInside(point) {
-    const [x, y] = [point.x, point.y];
-    const [x1, y1] = [this.a.x, this.a.y];
-    const [x2, y2] = [this.b.x, this.b.y];
-    const [x3, y3] = [this.c.x, this.c.y];
-
-    const denominator = (y2 - y3) * (x1 - x3) + (x3 - x2) * (y1 - y3);
-
-    const alpha = ((y2 - y3) * (x - x3) + (x3 - x2) * (y - y3)) / denominator;
-    const beta = ((y3 - y1) * (x - x3) + (x1 - x3) * (y - y3)) / denominator;
-    const gamma = 1 - alpha - beta;
-
-    return alpha > 0 && beta > 0 && gamma > 0;
+    const { x, y } = point;
+    const { a, b, c } = this;
+  
+    function sign(p1, p2, p3) {
+      return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+    }
+  
+    const d1 = sign({ x, y }, a, b);
+    const d2 = sign({ x, y }, b, c);
+    const d3 = sign({ x, y }, c, a);
+  
+    const hasNeg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    const hasPos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+  
+    return !(hasNeg && hasPos);
   }
 
   _display() {
@@ -41,6 +44,10 @@ class Triangle {
       return ;
     }
     this._display();
+  }
+
+  displayEdges() {
+    console.log(`(${this.a.y},${this.a.x}),(${this.b.y},${this.b.x}),(${this.c.y},${this.c.x}),(${this.a.y},${this.a.x})`)
   }
 
   displayNeighbours_t(trianglesChecked = {}) {
