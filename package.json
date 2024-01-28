@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "delaunator": "^5.0.0",
-    "earcut": "^2.2.4"
+    "earcut": "^2.2.4",
+    "polygon-pathfinding": "^0.1.0"
   }
 }

@@ -7,7 +7,7 @@ class AStar {
     this.edgeCost = edgeCost;
     this.edgeHeuristics = edgeHeuristics;
     this.heap = new Heap((a, b) => {
-      return a.cost < b.cost;
+      return a.heuristics_cost < b.heuristics_cost;
     });
     this.cost = null;
   }
@@ -16,7 +16,8 @@ class AStar {
     this.heap.push({
       node: src,
       cost: 0,
-      parent: null
+      parent: null,
+      heuristics_cost: 0
     });
 
     return this.search_t(dst);
@@ -57,6 +58,7 @@ class AStar {
           }
 
           this.heap.push({
+            heuristics_cost: currentCost + this.edgeHeuristics(currentNode.node, neighbours[i], dst),
             cost: currentCost,
             node: neighbours[i],
             parent: currentNode

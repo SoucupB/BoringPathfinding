@@ -1,7 +1,8 @@
-import Point from "../Geometry/Point.js";
-import Polygon from "../Geometry/Polygon.js";
+// import Point from "../Geometry/Point.js";
+// import Polygon from "../Geometry/Polygon.js";
 import Drawer from "./CanvasLine.js";
-import Search from "../Searcher/Search.js";
+// import Search from "../Searcher/Search.js";
+import { Polygon, Point, Search } from "polygon-pathfinding"
 
 class CanvasMain {
   constructor(canvas = null) {
@@ -42,7 +43,7 @@ class CanvasMain {
     if(!this.searcher || !this.srcPoint) {
       return ;
     }
-    this.pathFound = this.searcher.getPointsPath(this.srcPoint, this.mouse);
+    this.pathFound = this.searcher.searchForPath(this.srcPoint, this.mouse);
   }
 
   disableInput() {
